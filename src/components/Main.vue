@@ -7,36 +7,7 @@
         <div class="bg-main">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-3 row-cols-md-5 container-box-music">
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
-                    <div class="col">
-                        <div class="box-music"></div>
-                    </div>
+                    <CardMusic v-for="(item, index) in arrayMusic" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
                 </div>
             </div>
         </div>
@@ -46,19 +17,26 @@
 
 <script>
 import axios from 'axios'
+import CardMusic from './CardMusic.vue'
+
 
 export default {
     data(){
         return{
-
+            arrayMusic: [],
         }
     },
 
-    components: "",
+    components: { 
+      CardMusic 
+    },
+
     mounted(){
         axios.get('https://flynn.boolean.careers/exercises/api/array/music').then( (response) => {
-        const result = response;
+        const result = response.data.response;
         console.log(result);
+        this.arrayMusic = result.slice();
+        console.log(this.arrayMusic);
         })
     }
 }
@@ -92,12 +70,6 @@ export default {
     .col{
         padding: 0;
     }
-}
-
-.box-music{
-    height: 300px;
-    margin: 15px;
-    background-color: $primaryColor;
 }
 
 </style>
