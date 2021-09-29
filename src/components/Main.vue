@@ -6,7 +6,7 @@
 
         <div class="bg-main">
             <div class="container">
-                <div v-if="load" class="row row-cols-1 row-cols-sm-3 row-cols-md-5 container-box-music">
+                <div v-if="load == true" class="row row-cols-1 row-cols-sm-3 row-cols-md-5 container-box-music">
                     <CardMusic v-for="(item, index) in arrayMusic" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
                 </div>
 
@@ -14,9 +14,9 @@
                     <Loading />
                 </div>
 
-                <!-- <div v-else-if="load == 'vuoto'"> 
-                    <h1 class="text-center text-white">Mi dispiace ma non ci sono contenuti da mostrare 😅</h1>
-                </div> -->
+                <div v-else-if="load == 'vuoto'"> 
+                    <h1 class="emptyArray mb-0 text-center text-white">Mi dispiace, non ci sono contenuti da mostrare 😅</h1>
+                </div>
             </div> 
         </div>
 
@@ -33,6 +33,7 @@ export default {
         return{
             arrayMusic: [],
             load: false,
+            myAPI: 'https://flynn.boolean.careers/exercises/api/array/music',
         }
     },
 
@@ -42,16 +43,23 @@ export default {
     },
 
     mounted(){
-        axios.get('https://flynn.boolean.careers/exercises/api/array/music').then( (response) => {
+        axios.get(this.myAPI).then( (response) => {
         const result = response.data.response;
-
             console.log(result);
             this.arrayMusic = result.slice();
-            
-            setTimeout( ()=> {
-                this.load = true;
-                console.log(this.arrayMusic.length);
-            }, 3500);
+            //in caso l'array fosse vuoto, verrà visualizzato un messaggio a schermo che informi l'utente
+            // this.arrayMusic = "";
+            if(this.arrayMusic.length > 0){
+                setTimeout( () => {
+                    this.load = true;
+                    console.log(this.arrayMusic.length);
+                }, 2000);
+            } else{
+                setTimeout( () => {
+                    this.load = "vuoto";
+                    console.log(this.arrayMusic.length);
+                }, 2000);
+            } 
         })
     }
 }
@@ -85,6 +93,13 @@ export default {
     .col{
         padding: 0;
     }
+}
+
+.emptyArray{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 </style>
