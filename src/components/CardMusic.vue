@@ -34,6 +34,10 @@ export default {
     margin: 15px;
     background-color: $primaryColor;
 
+    &:hover{
+        cursor: pointer;
+    }
+
     img{
         max-width: 80%;
         padding-top: 15px;
@@ -51,9 +55,5 @@ export default {
         margin-bottom: 0;
     }
 }
-
-
-
-
 
 </style>

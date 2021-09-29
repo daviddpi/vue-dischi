@@ -6,10 +6,14 @@
 
         <div class="bg-main">
             <div class="container">
-                <div class="row row-cols-1 row-cols-sm-3 row-cols-md-5 container-box-music">
+                <div v-if="load" class="row row-cols-1 row-cols-sm-3 row-cols-md-5 container-box-music">
                     <CardMusic v-for="(item, index) in arrayMusic" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
                 </div>
-            </div>
+
+                <div v-else class="row">
+                    <Loading />
+                </div>
+            </div> 
         </div>
 
     </div>
@@ -18,17 +22,19 @@
 <script>
 import axios from 'axios'
 import CardMusic from './CardMusic.vue'
-
+import Loading from './Loading.vue'
 
 export default {
     data(){
         return{
             arrayMusic: [],
+            load: false,
         }
     },
 
     components: { 
-      CardMusic 
+      CardMusic,
+      Loading,
     },
 
     mounted(){
@@ -36,7 +42,11 @@ export default {
         const result = response.data.response;
         console.log(result);
         this.arrayMusic = result.slice();
-        console.log(this.arrayMusic);
+
+            setTimeout( ()=> {
+                this.load = true;
+            }, 3500);
+
         })
     }
 }
