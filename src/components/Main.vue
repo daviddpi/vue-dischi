@@ -10,9 +10,13 @@
                     <CardMusic v-for="(item, index) in arrayMusic" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
                 </div>
 
-                <div v-else class="row">
+                <div v-else-if="!load" class="row">
                     <Loading />
                 </div>
+
+                <!-- <div v-else-if="load == 'vuoto'"> 
+                    <h1 class="text-center text-white">Mi dispiace ma non ci sono contenuti da mostrare 😅</h1>
+                </div> -->
             </div> 
         </div>
 
@@ -40,13 +44,14 @@ export default {
     mounted(){
         axios.get('https://flynn.boolean.careers/exercises/api/array/music').then( (response) => {
         const result = response.data.response;
-        console.log(result);
-        this.arrayMusic = result.slice();
 
+            console.log(result);
+            this.arrayMusic = result.slice();
+            
             setTimeout( ()=> {
                 this.load = true;
+                console.log(this.arrayMusic.length);
             }, 3500);
-
         })
     }
 }
