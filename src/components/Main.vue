@@ -5,9 +5,7 @@
 
             <div class="d-flex">
                 <h6>Seleziona genere</h6>
-                <select id="genre-music-select">
-                        <SelectGenre @choose="changeGenre" v-for="(element, index) in genreMusic" :key="index" :genre="element"></SelectGenre>
-                </select>
+                <SelectGenre @choose="changeGenre" :genreList="genreMusic"></SelectGenre>
             </div>
             
         </div>
@@ -46,7 +44,6 @@ export default {
             myAPI: 'https://flynn.boolean.careers/exercises/api/array/music',
             genreMusic: [],
             genreSelect: "",
-            arrayMusicFiltered: [],
         }
     },
 
@@ -62,14 +59,9 @@ export default {
 
         changeGenre(genre){
             this.genreSelect = genre;
+            console.log(this.genreSelect, genre);
         },
         
-
-        // filteredMusic(){
-        //     this.arrayMusicFiltered = this.arrayMusic.filter( element => {
-        //         return element.genre == this.genreSelect;
-        //     })
-        // }
     },
 
     components: { 
@@ -85,7 +77,7 @@ export default {
             this.arrayMusic = result.slice();
             //in caso l'array fosse vuoto, verrà visualizzato un messaggio a schermo che informi l'utente
             // this.arrayMusic = "";
-            if(this.arrayMusic.length > 0){
+            if(this.filteredMusic.length > 0){
                 setTimeout( () => {
                     this.load = true;  
                 }, 2000);
@@ -96,14 +88,15 @@ export default {
             }
             this.addGenreSelect();
             this.changeGenre();
-            // this.filteredMusic();
         });
     },
 
     computed: {
         filteredMusic(){
             return this.arrayMusic.filter( element => {
+                console.log(this.genreSelect);
                 return element.genre == this.genreSelect;
+                // return element
             })
         }
     }
@@ -152,15 +145,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-#genre-music-select{
-    width: max-content;
-    background-color: $secondaryColor;
-    color: white;
-    border: none;
-    margin-right: 150px;
-    height: 50%;
 }
 
 </style>
