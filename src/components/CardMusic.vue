@@ -31,7 +31,7 @@ export default {
 
 .box-music{
     height: 350px;
-    margin: 15px;
+    margin: 15px 0;
     background-color: $primaryColor;
 
     &:hover{
@@ -45,7 +45,7 @@ export default {
 
     h3{
         color: white;
-        font-size: 1.3rem;
+        font-size: 3vh;
         text-transform: uppercase;
         padding: 15px;
     }
@@ -56,4 +56,12 @@ export default {
     }
 }
 
+@media only screen and (max-width: 559px) {
+  .box-music {
+    img{
+        max-width: 45%;
+        padding-top: 15px;
+    }
+  }
+}
 </style>

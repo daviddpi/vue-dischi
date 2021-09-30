@@ -1,5 +1,6 @@
 <template>
     <select id="genre-music-select" v-model="genre" @change="$emit('choose', genre)">
+        <option value=""> - </option>
         <option v-for="(element, index) in genreList" :key="index" :value="element">{{ element }}</option>
     </select> 
 </template>
@@ -29,5 +30,6 @@ export default {
     margin-right: 150px;
     height: 50%;
 }
+
 
 </style>

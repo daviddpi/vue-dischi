@@ -5,7 +5,7 @@
 
             <div class="d-flex">
                 <h6>Seleziona genere</h6>
-                <SelectGenre @choose="changeGenre" :genreList="genreMusic"></SelectGenre>
+                <SelectGenre @choose="changeGenre" :genreList="genreMusic" />
             </div>
             
         </div>
@@ -13,7 +13,7 @@
         <div class="bg-main">
             <div class="container">
 
-                <div v-if="load == true" class="row row-cols-1 row-cols-sm-3 row-cols-md-5 container-box-music">
+                <div v-if="load == true" class="row row-cols-1 row-cols-sm-3 row-cols-lg-5 container-box-music">
                     <CardMusic v-for="(item, index) in filteredMusic" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
                 </div>
 
@@ -77,7 +77,7 @@ export default {
             this.arrayMusic = result.slice();
             //in caso l'array fosse vuoto, verrà visualizzato un messaggio a schermo che informi l'utente
             // this.arrayMusic = "";
-            if(this.filteredMusic.length > 0){
+            if(this.arrayMusic.length > 0){
                 setTimeout( () => {
                     this.load = true;  
                 }, 2000);
@@ -94,9 +94,11 @@ export default {
     computed: {
         filteredMusic(){
             return this.arrayMusic.filter( element => {
-                console.log(this.genreSelect);
-                return element.genre == this.genreSelect;
-                // return element
+                if(this.genreSelect == "" || this.genreSelect == undefined){
+                    return element;
+                } else{
+                    return element.genre == this.genreSelect;
+                }
             })
         }
     }
