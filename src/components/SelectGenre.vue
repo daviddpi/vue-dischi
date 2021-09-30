@@ -1,6 +1,6 @@
 <template>
     
-    <option value="genre">{{ genre }}</option>
+    <option @change="$emit('choose', genre)" value="genre">{{ genre }}</option>
     
 </template>
 

@@ -6,7 +6,7 @@
             <div class="d-flex">
                 <h6>Seleziona genere</h6>
                 <select id="genre-music-select">
-                        <SelectGenre v-for="(element, index) in genreMusic" :key="index" :genre="element"></SelectGenre>
+                        <SelectGenre @choose="genreSelect" v-for="(element, index) in genreMusic" :key="index" :genre="element"></SelectGenre>
                 </select>
             </div>
             
@@ -16,7 +16,7 @@
             <div class="container">
 
                 <div v-if="load == true" class="row row-cols-1 row-cols-sm-3 row-cols-md-5 container-box-music">
-                    <CardMusic v-for="(item, index) in arrayMusic" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
+                    <CardMusic v-for="(item, index) in arrayMusicFiltered" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
                 </div>
 
                 <div v-else-if="!load" class="row">
@@ -45,6 +45,8 @@ export default {
             load: false,
             myAPI: 'https://flynn.boolean.careers/exercises/api/array/music',
             genreMusic: [],
+            genreSelect: "",
+            arrayMusicFiltered: [],
         }
     },
 
@@ -56,7 +58,18 @@ export default {
                 }
             })
             return this.genreMusic;
-        }
+        },
+
+        changeGenre(genre){
+            this.genreSelect = genre;
+        },
+        
+
+        // filteredMusic(){
+        //     this.arrayMusicFiltered = this.arrayMusic.filter( element => {
+        //         return element.genre == this.genreSelect;
+        //     })
+        // }
     },
 
     components: { 
@@ -81,19 +94,19 @@ export default {
                     this.load = "vuoto";
                 }, 2000);
             }
-
-
-
             this.addGenreSelect();
-
-            console.log(this.arrayMusic);
-            console.log(this.genreMusic);
-
         });
 
-        
-        
+    },
+
+    computed: {
+        filteredMusic(){
+            return this.arrayMusicFiltered = this.arrayMusic.filter( element => {
+                return element.genre == this.genreSelect;
+            })
+        }
     }
+
 }
 </script>
 
