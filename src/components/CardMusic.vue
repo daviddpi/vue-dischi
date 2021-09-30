@@ -45,7 +45,7 @@ export default {
 
     h3{
         color: white;
-        font-size: 3vh;
+        font-size: 1.3rem;
         text-transform: uppercase;
         padding: 15px;
     }
