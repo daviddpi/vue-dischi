@@ -1,11 +1,20 @@
 <template>
     <div>
-        <div class="bg-logo">
+        <div class="bg-logo d-flex justify-content-lg-between align-items-center">
             <img src="../assets/img/logo.png" alt="Logo spotify">
+
+            <div class="d-flex">
+                <h6>Seleziona genere</h6>
+                <select id="genre-music-select">
+                        <SelectGenre v-for="(element, index) in genreMusic" :key="index" :genre="element"></SelectGenre>
+                </select>
+            </div>
+            
         </div>
 
         <div class="bg-main">
             <div class="container">
+
                 <div v-if="load == true" class="row row-cols-1 row-cols-sm-3 row-cols-md-5 container-box-music">
                     <CardMusic v-for="(item, index) in arrayMusic" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
                 </div>
@@ -27,6 +36,7 @@
 import axios from 'axios'
 import CardMusic from './CardMusic.vue'
 import Loading from './Loading.vue'
+import SelectGenre from './SelectGenre.vue'
 
 export default {
     data(){
@@ -34,12 +44,25 @@ export default {
             arrayMusic: [],
             load: false,
             myAPI: 'https://flynn.boolean.careers/exercises/api/array/music',
+            genreMusic: [],
+        }
+    },
+
+    methods: {
+        addGenreSelect(){
+            this.arrayMusic.forEach( element => {
+                if(!this.genreMusic.includes(element.genre)){
+                    this.genreMusic.push(element.genre);
+                }
+            })
+            return this.genreMusic;
         }
     },
 
     components: { 
       CardMusic,
       Loading,
+      SelectGenre,
     },
 
     mounted(){
@@ -51,16 +74,25 @@ export default {
             // this.arrayMusic = "";
             if(this.arrayMusic.length > 0){
                 setTimeout( () => {
-                    this.load = true;
-                    console.log(this.arrayMusic.length);
+                    this.load = true;  
                 }, 2000);
             } else{
                 setTimeout( () => {
                     this.load = "vuoto";
-                    console.log(this.arrayMusic.length);
                 }, 2000);
-            } 
-        })
+            }
+
+
+
+            this.addGenreSelect();
+
+            console.log(this.arrayMusic);
+            console.log(this.genreMusic);
+
+        });
+
+        
+        
     }
 }
 </script>
@@ -82,6 +114,12 @@ export default {
         max-width: 40px;
         margin: 5px 20px;
     }
+
+    h6{
+        color: white;
+        padding-right: 15px;
+        margin: 0;
+    }
 }
 
 .container-box-music{
@@ -100,6 +138,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#genre-music-select{
+    width: max-content;
+    background-color: $secondaryColor;
+    color: white;
+    border: none;
+    margin-right: 150px;
+    height: 50%;
 }
 
 </style>
