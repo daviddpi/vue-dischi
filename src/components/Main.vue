@@ -6,7 +6,7 @@
             <div class="d-flex">
                 <h6>Seleziona genere</h6>
                 <select id="genre-music-select">
-                        <SelectGenre @choose="genreSelect" v-for="(element, index) in genreMusic" :key="index" :genre="element"></SelectGenre>
+                        <SelectGenre @choose="changeGenre" v-for="(element, index) in genreMusic" :key="index" :genre="element"></SelectGenre>
                 </select>
             </div>
             
@@ -16,7 +16,7 @@
             <div class="container">
 
                 <div v-if="load == true" class="row row-cols-1 row-cols-sm-3 row-cols-md-5 container-box-music">
-                    <CardMusic v-for="(item, index) in arrayMusicFiltered" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
+                    <CardMusic v-for="(item, index) in filteredMusic" :key="index" :source="item.poster" :titolo="item.title" :autore="item.author" :anno="item.year"/>
                 </div>
 
                 <div v-else-if="!load" class="row">
@@ -95,13 +95,14 @@ export default {
                 }, 2000);
             }
             this.addGenreSelect();
+            this.changeGenre();
+            // this.filteredMusic();
         });
-
     },
 
     computed: {
         filteredMusic(){
-            return this.arrayMusicFiltered = this.arrayMusic.filter( element => {
+            return this.arrayMusic.filter( element => {
                 return element.genre == this.genreSelect;
             })
         }
