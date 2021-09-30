@@ -56,12 +56,22 @@ export default {
     }
 }
 
-@media only screen and (max-width: 559px) {
+@media screen and (max-width: 576px) {
   .box-music {
-    img{
-        max-width: 45%;
-        padding-top: 15px;
+        height: max-content;
+
+        h3{
+            margin: 0;
+        }
+
+        img{
+            max-width: 45%;
+            padding-top: 15px;
+        }
+
+        h5, h6{
+            padding-bottom: 10px;
+        }
     }
-  }
 }
 </style>
